@@ -1,0 +1,68 @@
+﻿
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Templates/Layout.cshtml";
+}
+
+<h3>Sistema para controle de jogos</h3>
+<p>
+    Projeto desenvolvido em .NET CORE MVC com SqlServer.
+
+    <hr />
+
+    <div id="grafico"></div>
+
+</p>
+
+@section scripts {
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-3d.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+
+    <script>
+        //função para acessar o método ObterDadosGrafico (JsonResult) da classe JogoController
+        $(document).ready(
+            function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Jogo/ObterDadosGrafico',
+                    success: function (result) {
+
+                        var array = [];
+
+                        for (var i = 0; i < result.length; i++) {
+                            array.push([
+                                result[i].dataCadastro, result[i].total
+                            ]);
+                        }
+
+                        new Highcharts.Chart({
+                            chart: {
+                                type: 'pie',
+                                renderTo: 'grafico'
+
+                            },
+                            title: {
+                                text: 'Quantidade de jogos cadastrados por data'
+                            },
+                            subtitle: {
+                                text: 'Somatorio da quantidade de jogos'
+                            },
+                            plotOptions: {
+                                pie: {
+                                    innerSize: '55%'
+                                }
+                            },
+                            series: [
+                                { data: array } //dados do gráfico..
+                            ]
+                        })
+                    }
+                })
+            }
+        )
+    </script>
+}

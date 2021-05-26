@@ -1,0 +1,51 @@
+﻿@model ProjetoMVC_LocJogos.Models.JogoCadastroModel
+@{
+    ViewData["Title"] = "Cadastro";
+    Layout = "~/Views/Templates/Layout.cshtml";
+}
+
+<h3>Cadastro de Jogos</h3>
+<p>
+    Preencha o formulário para incluir um jogo.
+</p>
+<hr />
+
+@if (TempData["Mensagem"] != null)
+{
+    <div class="alert alert-secondary mb-2">
+        <strong>@TempData["Mensagem"]</strong>
+    </div>
+}
+
+@using (Html.BeginForm())
+{
+    <label>Nome do jogo:</label>
+    @Html.TextBoxFor(model => model.Nome, new { @class = "form-control" })
+
+    <div class="text-danger">
+        <!-- tex-danger : vai escrever um texto de alerta em vermelho-->
+        @Html.ValidationMessageFor(mode => Model.Nome)
+    </div>
+    <br />
+
+    <label>Preço do jogo:</label>
+    @Html.TextBoxFor(model => model.Preco, new { @class = "form-control" })
+    <div class="text-danger">
+        <!-- tex-danger : vai escrever um texto de alerta em vermelho-->
+        @Html.ValidationMessageFor(mode => Model.Preco)
+    </div>
+    <br />
+
+    <label>Quantidade do jogo:</label>
+    @Html.TextBoxFor(model => model.Quantidade, new { @class = "form-control" })
+    <div class="text-danger">
+        <!-- tex-danger : vai escrever um texto de alerta em vermelho-->
+        @Html.ValidationMessageFor(mode => Model.Quantidade)
+    </div>
+    <br />
+
+    <input type="submit" value="Realizar Cadastro"
+           class="btn btn-dark" />
+
+
+}
